@@ -6,7 +6,7 @@ Hay tres etapas:
 - **B.** Conectar el Google Sheet real y probar desde tu computador.
 - **C.** Publicar la app y dejar la tablet de la doctora lista.
 
-Requisitos: **Node.js 18+** (solo para la etapa A y para probar localmente en la B), una **cuenta de Google** (idealmente la del proyecto) y acceso al repositorio en GitHub.
+Requisitos: **Node.js 18+** (solo para la etapa A; es opcional), una **cuenta de Google** (idealmente la del proyecto) y acceso al repositorio en GitHub.
 
 ---
 
@@ -17,7 +17,6 @@ Un servidor local simula Google Sheets usando el `Code.gs` real.
 ```bash
 git clone https://github.com/carlos-39/forms_sheets.git
 cd forms_sheets
-git checkout claude/landing-form-sheets-l7i7vg
 npm run servidor        # no requiere npm install
 ```
 
@@ -94,15 +93,15 @@ Si algo sale en rojo (**Error al sincronizar**), toca el indicador para ver el d
 ## C. Publicar la app y preparar la tablet
 
 ### C1. Publicar con GitHub Pages
-1. En GitHub, en el repositorio, crea la rama **`main`** a partir de `claude/landing-form-sheets-l7i7vg`: selector de ramas → escribe `main` → *Create branch main from …*. También sirve abrir un Pull Request y hacer merge.
-2. **Settings → General → Default branch:** cámbiala a `main`.
-3. **Settings → Pages → Build and deployment → Source: GitHub Actions**.
-4. Pestaña **Actions → "Publicar app" → Run workflow** (la primera vez; después se publica solo con cada cambio en `main`).
-5. Cuando termine (✅), la dirección aparece en *Settings → Pages*, algo como
-   **`https://carlos-39.github.io/forms_sheets/`**.
+La rama **`main`** ya existe con todo el código y el repositorio es público, así que Pages es gratis.
+1. En GitHub: **Settings → General → Default branch** → cambiar a **`main`** (ícono ⇄) → *Update*.
+2. **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+3. Pestaña **Actions → "Publicar app" → Run workflow → Branch: main → Run workflow**.
+4. Cuando termine (✅, 1 o 2 minutos), la app queda en:
+   **https://carlos-39.github.io/forms_sheets/**
+   Después, cada cambio que llegue a `main` se publica solo.
 
-> ⚠️ Con una cuenta gratuita, GitHub Pages solo funciona si el repositorio es **público**. El código no contiene datos ni la clave, así que es seguro hacerlo público. **No escribas la clave en `web/config.js`.**
-> Si prefieres mantenerlo privado, entra a <https://app.netlify.com/drop> y arrastra la carpeta **`web/`**. Te da una dirección `https://….netlify.app` gratis.
+> No escribas la clave en `web/config.js`: el repositorio es público.
 
 ### C2. Dejar la tablet de la doctora lista
 1. En tu computador abre la app publicada. En **Ajustes** pon la URL y la clave, pulsa **Guardar y probar conexión** y luego **Enlace para otro dispositivo**. Copia ese enlace.
