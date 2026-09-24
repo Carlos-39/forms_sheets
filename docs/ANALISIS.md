@@ -95,10 +95,13 @@ en el propio documento). Recomendación:
 - **Resiliencia:** si falla la conexión en la clínica, se guarda en el dispositivo y se reintenta el envío.
 - **Codificación SPSS:** cada opción se guarda con su código numérico y se entrega un diccionario de variables.
 
-## 6. Decisiones pendientes (del usuario)
+## 6. Decisiones tomadas
 
-1. ¿Alcance del formulario: solo las 7 preguntas sociodemográficas o todo el instrumento (Tabla 4 y las 3 escalas)?
-2. ¿Quién lo diligencia: el investigador, la paciente o ambos (bloques separados)?
-3. ¿Se guarda el número de documento completo o solo un código de participante?
-4. ¿Hosting: GitHub Pages + Apps Script o solo Apps Script?
-5. ¿Se agregan las variables de desenlace (punto 3.1) y se corrigen las inconsistencias señaladas?
+1. **Alcance:** instrumento completo (Tabla 4 más las escalas EEP-10, PHQ-9 y GAD-7), editable desde la app.
+2. **Quién lo diligencia:** la doctora, con cada paciente.
+3. **Identificación:** se guarda el número de documento y se impide repetirlo.
+4. **Hosting:** GitHub Pages (u otro hosting estático) más Apps Script, con funcionamiento sin conexión.
+5. **Variable desenlace:** no se incluye por ahora (si se necesita, se agrega desde el editor de preguntas).
+   En la plantilla, el PHQ-9 usa 0–4 como "mínima" para cubrir el puntaje 0.
+
+La implementación está descrita en el [README](../README.md).

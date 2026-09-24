@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Encuestas</title>
+  <meta name="description" content="Formulario de recolección de datos con sincronización a Google Sheets y funcionamiento sin conexión.">
+  <meta name="theme-color" content="#0b6e6e">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="config.js"></script>
+</head>
+<body>
+  <header class="app-cab">
+    <div class="app-cab-fila">
+      <span id="marca" class="marca">Encuestas</span>
+      <button id="estado-sync" class="pill" type="button">…</button>
+    </div>
+    <nav class="nav">
+      <a href="#/">Encuestas</a>
+      <a href="#/preguntas">Preguntas</a>
+      <a href="#/ajustes">Ajustes</a>
+    </nav>
+  </header>
+  <main id="vista" class="contenedor"></main>
+  <noscript>Esta aplicación necesita JavaScript.</noscript>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
