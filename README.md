@@ -5,7 +5,7 @@ Aplicación web para que la doctora diligencie la encuesta con cada paciente des
 - **Cada encuesta se guarda en una fila de un Google Sheet**, en cuanto hay conexión.
 - **Funciona sin internet.** Las encuestas quedan guardadas en el dispositivo y se envían solas cuando vuelve la señal.
 - **La doctora edita el formulario desde la misma app.** Puede agregar, quitar, reordenar o cambiar preguntas, opciones, puntajes, alertas y condiciones. El Sheet se actualiza solo: aparecen columnas nuevas y cambia el texto de las preguntas.
-- Viene cargada con el instrumento del proyecto *Prevalencia y factores relacionados al parto pretérmino* (ver [`docs/ANALISIS.md`](docs/ANALISIS.md)):
+- Viene cargada con el instrumento del proyecto *Prevalencia y factores relacionados al parto pretérmino* (Tabla 4 y Tablas 1 a 3, tal cual; ver [`docs/PREGUNTAS.md`](docs/PREGUNTAS.md)):
   - datos sociodemográficos,
   - antecedentes obstétricos,
   - infecciones y anemia,

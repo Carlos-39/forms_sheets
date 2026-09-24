@@ -102,6 +102,7 @@ en el propio documento). Recomendación:
 3. **Identificación:** se guarda el número de documento y se impide repetirlo.
 4. **Hosting:** GitHub Pages (u otro hosting estático) más Apps Script, con funcionamiento sin conexión.
 5. **Variable desenlace:** no se incluye por ahora (si se necesita, se agrega desde el editor de preguntas).
-   En la plantilla, el PHQ-9 usa 0–4 como "mínima" para cubrir el puntaje 0.
+6. **Fidelidad al documento:** la plantilla reproduce la Tabla 4 y las Tablas 1 a 3 tal cual, incluidas sus
+   inconsistencias; esos puntos quedan para que la doctora los confirme (ver [PREGUNTAS.md](PREGUNTAS.md)).
 
 La implementación está descrita en el [README](../README.md).

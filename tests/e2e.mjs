@@ -56,8 +56,8 @@ async function llenarEncuestaCompleta(documento, { alertaPHQ = false } = {}) {
     await responderPaso(i === 0 ? { documento, edad: 27, alertaPHQ } : { alertaPHQ });
     if (i === 4) { // antropometría: talla y pesos → IMC automático
       await pagina.fill('#q_talla', '1.6');
-      await pagina.fill('#q_peso_pregestacional', '64');
-      const imc = await pagina.locator('[data-q=imc_pregestacional] output').textContent();
+      await pagina.fill('#q_peso_1t', '64');
+      const imc = await pagina.locator('[data-q=imc_1t] output').textContent();
       assert.match(imc, /25/, 'IMC calculado: ' + imc);
     }
     if (i < pasos - 1) await pagina.click('text=Siguiente →');
@@ -89,12 +89,12 @@ try {
   let f = filas(h)[0];
   assert.equal(String(f[col(h, 'documento')]), '1144000111');
   assert.equal(f[col(h, 'estado')], 'Completa');
-  assert.equal(f[col(h, 'estrato')], '2 - Bajo');
+  assert.equal(f[col(h, 'estrato')], '2: Bajo');
   assert.equal(f[col(h, 'eep10_puntaje')], 18, 'EEP-10: 6 ítems directos ×1 + 4 inversos ×3');
   assert.equal(f[col(h, 'eep10_nivel')], 'Estrés moderado');
   assert.equal(f[col(h, 'phq9_puntaje')], 10, 'PHQ-9: 8 ítems ×1 + ítem 9 ×2');
   assert.ok(String(f[col(h, 'alertas')]).includes('PHQ-9'), 'alerta registrada');
-  assert.equal(f[col(h, 'imc_pregestacional')], 25);
+  assert.equal(f[col(h, 'imc_1t')], 25);
   console.log('✓ encuesta completa sincronizada (puntajes, IMC y alerta)');
   await foto('04-inicio');
 
