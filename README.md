@@ -30,6 +30,8 @@ Aplicación web para que la doctora diligencie la encuesta con cada paciente des
 | `apps-script/Code.gs` | Código que va dentro del Google Sheet y recibe los datos. |
 | `tests/` | Servidor de pruebas (simula Google Sheets) y prueba automática de extremo a extremo. |
 | `docs/ANALISIS.md` | Análisis del documento del proyecto. |
+| `docs/PREGUNTAS.md` | Lista de preguntas, escalas y puntos para confirmar con la doctora. |
+| `docs/GUIA_PRUEBA_Y_ENTREGA.md` | Paso a paso para probar y dejar la app lista. |
 
 ---
 

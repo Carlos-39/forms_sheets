@@ -1,6 +1,7 @@
 {
   "name": "forms-sheets",
   "private": true,
+  "type": "module",
   "description": "Formulario sin conexión con sincronización a Google Sheets",
   "scripts": {
     "servidor": "node tests/servidor-prueba.mjs",
