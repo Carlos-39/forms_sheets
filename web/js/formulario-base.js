@@ -2,7 +2,9 @@
 // "Prevalencia y factores relacionados al parto pretérmino en un servicio de obstetricia en Cali 2026":
 //   - Tabla 4 (definición operacional de las variables): nombres, opciones y rangos tal cual.
 //   - Tablas 1, 2 y 3 (EEP-10, PHQ-9, GAD-7): texto de los ítems, opciones, puntos y puntos de corte.
-// Lo único que no viene de la Tabla 4 es el número de documento (solicitado para identificar a la paciente).
+// Las secciones siguen la Tabla 4: Social, Psicológico (una sección por escala) y Biológico,
+// con las variables en el mismo orden del documento.
+// Lo único que no viene del documento es el número de documento (solicitado para identificar a la paciente).
 // La doctora puede modificar todo desde la pestaña "Preguntas" de la app.
 
 const op = (...etiquetas) => etiquetas.map((e, i) => ({ id: 'o' + (i + 1), etiqueta: e }));
@@ -41,13 +43,11 @@ export function formularioBase() {
         descripcion: '',
         preguntas: [
           { id: 'documento', etiqueta: 'Número de documento', tipo: 'texto', obligatoria: true, unico: true,
-            ayuda: 'No se permite registrar dos encuestas con el mismo documento.' },
-          num('edad', 'Edad materna', { obligatoria: true, min: 18, unidad: 'años',
-            ayuda: 'Años completos desde la fecha de nacimiento hasta el momento de la recolección.' })
+            ayuda: 'No se permite registrar dos encuestas con el mismo documento.' }
         ]
       },
       {
-        id: 'sociodemografico',
+        id: 'social',
         titulo: 'Social',
         descripcion: '',
         preguntas: [
@@ -69,66 +69,9 @@ export function formularioBase() {
         ]
       },
       {
-        id: 'antecedentes',
-        titulo: 'Antecedentes obstétricos',
-        descripcion: '',
-        preguntas: [
-          unica('gravidez', 'Gravidez', op('0: nulípara', '1: primípara', '2 o más: multípara'),
-            { ayuda: 'Número de veces que la mujer ha estado embarazada independientemente del resultado (parto, cesárea, aborto, embarazo ectópico).' }),
-          num('partos_vaginales', 'Número de partos vaginales previos', { min: 0 }),
-          num('cesareas', 'Número de cesáreas previas', { min: 0 }),
-          num('abortos', 'Número de abortos', { min: 0,
-            ayuda: 'Embarazos que finalizan antes de la viabilidad del feto (< 20 semanas o peso fetal < 500 gramos).' }),
-          num('ectopicos', 'Número de embarazos ectópicos previos', { min: 0 }),
-          siNo('legrados', 'Antecedente de legrados'),
-          siNo('pretermino_previo', 'Antecedente de parto pretérmino espontáneo',
-            { ayuda: 'Al menos un parto previo antes de las 37 semanas completas, con inicio espontáneo del trabajo de parto.' }),
-          { id: 'eg_pretermino_previo', etiqueta: 'Edad gestacional de parto pretérmino previo', tipo: 'numero',
-            decimales: 1, unidad: 'semanas', mostrarSi: { pregunta: 'pretermino_previo', valores: ['si'] },
-            ayuda: 'Por fecha de última menstruación, ecografía obstétrica o examen clínico neonatal.' },
-          unica('periodo_intergenesico', 'Periodo intergenésico',
-            op('Corto: < 18 meses', 'Ideal: 18-24 meses', 'Prolongado: > 60 meses'),
-            { ayuda: 'Intervalo en meses entre la finalización del último embarazo y el inicio del embarazo actual.' })
-        ]
-      },
-      {
-        id: 'infecciones',
-        titulo: 'Infecciones y anemia',
-        descripcion: '',
-        preguntas: [
-          siNo('itu', 'Infección de vías urinarias'),
-          unica('itu_trimestre', 'Trimestre en el que desarrolló infección urinaria',
-            op('I trimestre: 0-13.6 semanas', 'II trimestre: 14-27.6 semanas', 'III trimestre: ≥ 28 semanas'),
-            { mostrarSi: { pregunta: 'itu', valores: ['si'] } }),
-          num('itu_episodios', 'Número de episodios de infección urinaria', { min: 0,
-            ayuda: 'Cistitis o pielonefritis.', mostrarSi: { pregunta: 'itu', valores: ['si'] } }),
-          siNo('infeccion_vaginal', 'Infección vaginal'),
-          siNo('anemia', 'Anemia', { ayuda: 'Hemoglobina < 11,0 g/dl en I y III trimestre; < 10,5 g/dl en II trimestre.' }),
-          num('hb_1t', 'Hb primer trimestre', { decimales: 1, min: 0, unidad: 'g/dL' }),
-          num('hb_2t', 'Hb segundo trimestre', { decimales: 1, min: 0, unidad: 'g/dL' }),
-          num('hb_3t', 'Hb tercer trimestre', { decimales: 1, min: 0, unidad: 'g/dL' })
-        ]
-      },
-      {
-        id: 'antropometria',
-        titulo: 'Peso, talla e IMC',
-        descripcion: '',
-        preguntas: [
-          num('peso_1t', 'Peso materno I trimestre', { decimales: 1, min: 0, unidad: 'kg' }),
-          num('peso_2t', 'Peso materno II trimestre', { decimales: 1, min: 0, unidad: 'kg' }),
-          num('peso_3t', 'Peso materno III trimestre', { decimales: 1, min: 0, unidad: 'kg' }),
-          num('talla', 'Talla', { decimales: 2, min: 0, max: 3, unidad: 'm', ayuda: 'En metros. Ejemplo: 1.62' }),
-          imc('imc_1t', 'IMC I trimestre', 'peso_1t'),
-          imc('imc_2t', 'IMC II trimestre', 'peso_2t'),
-          imc('imc_3t', 'IMC III trimestre', 'peso_3t'),
-          num('imc_pregestacional', 'IMC pregestacional', { decimales: 1, min: 0, unidad: 'kg/m²',
-            ayuda: 'Peso (kg) / talla (m)² antes del inicio del embarazo o en las primeras 14 semanas de gestación.' })
-        ]
-      },
-      {
         id: 'eep10',
-        titulo: 'Escala de estrés percibido (EEP-10)',
-        descripcion: 'Durante el último mes:',
+        titulo: 'Psicológico · Estrés',
+        descripcion: 'Escala de estrés percibido (EEP-10). Durante el último mes:',
         puntaje: {
           activo: true,
           rangos: [
@@ -152,8 +95,8 @@ export function formularioBase() {
       },
       {
         id: 'phq9',
-        titulo: 'Cuestionario de salud del paciente (PHQ-9)',
-        descripcion: 'Durante las últimas 2 semanas, ¿qué tan seguido ha tenido molestias debido a los siguientes problemas?',
+        titulo: 'Psicológico · Depresión',
+        descripcion: 'Cuestionario de salud del paciente (PHQ-9). Durante las últimas 2 semanas, ¿qué tan seguido ha tenido molestias debido a los siguientes problemas?',
         puntaje: {
           activo: true,
           rangos: [
@@ -179,8 +122,8 @@ export function formularioBase() {
       },
       {
         id: 'gad7',
-        titulo: 'Escala de ansiedad generalizada (GAD-7)',
-        descripcion: 'Durante las últimas 2 semanas, ¿qué tan seguido ha tenido molestias debido a los siguientes problemas?',
+        titulo: 'Psicológico · Ansiedad',
+        descripcion: 'Escala de ansiedad generalizada (GAD-7). Durante las últimas 2 semanas, ¿qué tan seguido ha tenido molestias debido a los siguientes problemas?',
         puntaje: {
           activo: true,
           rangos: [
@@ -198,6 +141,51 @@ export function formularioBase() {
           frec('gad_5', '5. Se ha sentido tan inquieto(a) que no ha podido quedarse quieto(a)'),
           frec('gad_6', '6. Se ha molestado o irritado fácilmente'),
           frec('gad_7', '7. Ha tenido miedo de que algo terrible fuera a pasar')
+        ]
+      },
+      {
+        id: 'biologico',
+        titulo: 'Biológico',
+        descripcion: '',
+        preguntas: [
+          num('edad', 'Edad materna', { obligatoria: true, min: 18, unidad: 'años',
+            ayuda: 'Años completos desde la fecha de nacimiento hasta el momento de la recolección.' }),
+          unica('gravidez', 'Gravidez', op('0: nulípara', '1: primípara', '2 o más: multípara'),
+            { ayuda: 'Número de veces que la mujer ha estado embarazada independientemente del resultado (parto, cesárea, aborto, embarazo ectópico).' }),
+          num('partos_vaginales', 'Número de partos vaginales previos', { min: 0 }),
+          num('cesareas', 'Número de cesáreas previas', { min: 0 }),
+          num('abortos', 'Número de abortos', { min: 0,
+            ayuda: 'Embarazos que finalizan antes de la viabilidad del feto (< 20 semanas o peso fetal < 500 gramos).' }),
+          num('ectopicos', 'Número de embarazos ectópicos previos', { min: 0 }),
+          siNo('legrados', 'Antecedente de legrados'),
+          siNo('pretermino_previo', 'Antecedente de parto pretérmino espontáneo',
+            { ayuda: 'Al menos un parto previo antes de las 37 semanas completas, con inicio espontáneo del trabajo de parto.' }),
+          { id: 'eg_pretermino_previo', etiqueta: 'Edad gestacional de parto pretérmino previo', tipo: 'numero',
+            decimales: 1, unidad: 'semanas', mostrarSi: { pregunta: 'pretermino_previo', valores: ['si'] },
+            ayuda: 'Por fecha de última menstruación, ecografía obstétrica o examen clínico neonatal.' },
+          siNo('itu', 'Infección de vías urinarias'),
+          unica('itu_trimestre', 'Trimestre en el que desarrolló infección urinaria',
+            op('I trimestre: 0-13.6 semanas', 'II trimestre: 14-27.6 semanas', 'III trimestre: ≥ 28 semanas'),
+            { mostrarSi: { pregunta: 'itu', valores: ['si'] } }),
+          num('itu_episodios', 'Número de episodios de infección urinaria', { min: 0,
+            ayuda: 'Cistitis o pielonefritis.', mostrarSi: { pregunta: 'itu', valores: ['si'] } }),
+          siNo('infeccion_vaginal', 'Infección vaginal'),
+          siNo('anemia', 'Anemia', { ayuda: 'Hemoglobina < 11,0 g/dl en I y III trimestre; < 10,5 g/dl en II trimestre.' }),
+          num('hb_1t', 'Hb primer trimestre', { decimales: 1, min: 0, unidad: 'g/dL' }),
+          num('hb_2t', 'Hb segundo trimestre', { decimales: 1, min: 0, unidad: 'g/dL' }),
+          num('hb_3t', 'Hb tercer trimestre', { decimales: 1, min: 0, unidad: 'g/dL' }),
+          num('peso_1t', 'Peso materno I trimestre', { decimales: 1, min: 0, unidad: 'kg' }),
+          num('peso_2t', 'Peso materno II trimestre', { decimales: 1, min: 0, unidad: 'kg' }),
+          num('peso_3t', 'Peso materno III trimestre', { decimales: 1, min: 0, unidad: 'kg' }),
+          num('talla', 'Talla', { decimales: 2, min: 0, max: 3, unidad: 'm', ayuda: 'En metros. Ejemplo: 1.62' }),
+          imc('imc_1t', 'IMC I trimestre', 'peso_1t'),
+          imc('imc_2t', 'IMC II trimestre', 'peso_2t'),
+          imc('imc_3t', 'IMC III trimestre', 'peso_3t'),
+          num('imc_pregestacional', 'IMC pregestacional', { decimales: 1, min: 0, unidad: 'kg/m²',
+            ayuda: 'Peso (kg) / talla (m)² antes del inicio del embarazo o en las primeras 14 semanas de gestación.' }),
+          unica('periodo_intergenesico', 'Periodo intergenésico',
+            op('Corto: < 18 meses', 'Ideal: 18-24 meses', 'Prolongado: > 60 meses'),
+            { ayuda: 'Intervalo en meses entre la finalización del último embarazo y el inicio del embarazo actual.' })
         ]
       }
     ]

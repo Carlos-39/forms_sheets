@@ -156,7 +156,7 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--primario); 
 .paso.activo .paso-num { background: var(--primario); color: #fff; }
 .paso.con-error { border-color: #efc2be; }
 .paso.con-error .paso-num { background: var(--rojo); color: #fff; }
-.paso-txt { max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.paso-txt { max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 .seccion-form { background: #fff; border: 1px solid var(--borde); border-radius: var(--radio); padding: 18px 16px; box-shadow: var(--sombra); }
 .seccion-desc { color: var(--texto-2); margin: 0 0 12px; }

@@ -2,7 +2,7 @@
 // Estrategia: responde desde la caché de inmediato y actualiza la caché en segundo plano.
 // Las llamadas a Google (Apps Script) no pasan por aquí.
 
-const CACHE = 'encuestas-v1';
+const CACHE = 'encuestas-v2';
 const ARCHIVOS = [
   './',
   './index.html',

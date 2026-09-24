@@ -36,8 +36,8 @@ const foto = async (nombre) => { if (CAPTURAS) await pagina.screenshot({ path: `
 async function responderPaso({ documento, edad, alertaPHQ = false } = {}) {
   // Llena las preguntas visibles del paso activo.
   const sec = pagina.locator('.seccion-form:not([hidden])');
-  if (documento) await sec.locator('#q_documento').fill(documento);
-  if (edad) await sec.locator('#q_edad').fill(String(edad));
+  if (documento && await sec.locator('#q_documento').count()) await sec.locator('#q_documento').fill(documento);
+  if (edad && await sec.locator('#q_edad').count()) await sec.locator('#q_edad').fill(String(edad));
   const grupos = sec.locator('.pregunta:not([hidden]) .opciones[role=radiogroup]');
   const n = await grupos.count();
   for (let i = 0; i < n; i++) {
@@ -53,8 +53,8 @@ async function llenarEncuestaCompleta(documento, { alertaPHQ = false } = {}) {
   await pagina.waitForSelector('.seccion-form');
   const pasos = await pagina.locator('.paso').count();
   for (let i = 0; i < pasos; i++) {
-    await responderPaso(i === 0 ? { documento, edad: 27, alertaPHQ } : { alertaPHQ });
-    if (i === 4) { // antropometría: talla y pesos → IMC automático
+    await responderPaso({ documento, edad: 27, alertaPHQ });
+    if (await pagina.locator('.seccion-form:not([hidden]) #q_talla').count()) { // talla y peso → IMC automático
       await pagina.fill('#q_talla', '1.6');
       await pagina.fill('#q_peso_1t', '64');
       const imc = await pagina.locator('[data-q=imc_1t] output').textContent();
@@ -116,7 +116,6 @@ try {
   await pagina.waitForSelector('text=Nueva encuesta');
   await pagina.click('a[href="#/nueva"]');
   await pagina.fill('#q_documento', '999888777');
-  await pagina.fill('#q_edad', '31');
   await pagina.click('text=Guardar encuesta');
   await pagina.click('dialog[open] button:text-is("Guardar como incompleta")');
   await esperar(async () => /Sin señal · 1 pendiente/.test(await pagina.textContent('#estado-sync')), 'indicador sin señal');
@@ -132,6 +131,7 @@ try {
 
   // ---- 5. Editar una encuesta actualiza la misma fila
   await pagina.click('.registro-principal >> nth=0');
+  await pagina.click('.paso >> nth=-1'); // sección Biológico
   await pagina.fill('#q_edad', '32');
   await pagina.click('text=Guardar encuesta');
   await pagina.click('dialog[open] button:text-is("Guardar como incompleta")');

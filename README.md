@@ -6,11 +6,9 @@ Aplicación web para que la doctora diligencie la encuesta con cada paciente des
 - **Funciona sin internet.** Las encuestas quedan guardadas en el dispositivo y se envían solas cuando vuelve la señal.
 - **La doctora edita el formulario desde la misma app.** Puede agregar, quitar, reordenar o cambiar preguntas, opciones, puntajes, alertas y condiciones. El Sheet se actualiza solo: aparecen columnas nuevas y cambia el texto de las preguntas.
 - Viene cargada con el instrumento del proyecto *Prevalencia y factores relacionados al parto pretérmino* (Tabla 4 y Tablas 1 a 3, tal cual; ver [`docs/PREGUNTAS.md`](docs/PREGUNTAS.md)):
-  - datos sociodemográficos,
-  - antecedentes obstétricos,
-  - infecciones y anemia,
-  - peso, talla e IMC (calculado automáticamente),
-  - las escalas EEP-10, PHQ-9 y GAD-7, con puntaje y nivel automáticos y alerta si el ítem 9 del PHQ-9 es positivo.
+  - **Social**,
+  - **Psicológico:** las escalas EEP-10, PHQ-9 y GAD-7, con puntaje y nivel automáticos y alerta si el ítem 9 del PHQ-9 es positivo,
+  - **Biológico:** antecedentes, infecciones, anemia, peso, talla e IMC (calculado automáticamente).
 
 ```
  Tablet / celular (app instalada)            Google
