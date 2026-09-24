@@ -18,6 +18,22 @@ Las variables psicológicas de la Tabla 4 (*grado de ansiedad*, *nivel de estré
 
 Todo se puede cambiar desde la app, en la pestaña *Preguntas*.
 
+### Dónde está cada sección en el PDF
+Los números de página son los del visor de PDF, contando la portada como la página 1.
+
+| Sección de la app | Parte del PDF | Página |
+|---|---|---|
+| 1. Identificación | Documento: no está en el PDF. Edad materna: Tabla 4, bloque "Biológico" | 30 |
+| 2. Social | Tabla 4, bloque "Social" | 28 y 29 |
+| 3. Antecedentes obstétricos | Tabla 4, bloque "Biológico" (gravidez a antecedente de parto pretérmino) | 30 y 31 |
+| 3. Antecedentes obstétricos — periodo intergenésico | Tabla 4, última fila | 34 |
+| 4. Infecciones y anemia | Tabla 4, bloque "Biológico" | 32 y 33 |
+| 5. Peso, talla e IMC | Tabla 4, bloque "Biológico" | 33 y 34 |
+| 6. EEP-10 | Tabla 1 (y puntos de corte en la Tabla 4, bloque "Psicológico") | 25 (29) |
+| 7. PHQ-9 | Tabla 2 (y puntos de corte en la Tabla 4, bloque "Psicológico") | 26 (29) |
+| 8. GAD-7 | Tabla 3 (y puntos de corte en la Tabla 4, bloque "Psicológico") | 27 (29) |
+| Edad mínima de 18 años | Marco metodológico, "Criterios de inclusión" | 23 |
+
 ---
 
 ## 1. Identificación
