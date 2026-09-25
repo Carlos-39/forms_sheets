@@ -46,9 +46,11 @@ export const store = {
   formulario() {
     let f = leer(K.formulario, null);
     if (!f) {
-      f = formularioBase();
+      // Versión 0 y sin cambios pendientes: si el Sheet ya tiene preguntas (por ejemplo,
+      // editadas desde otro dispositivo), se descargan esas en vez de sobrescribirlas.
+      f = { ...formularioBase(), version: 0 };
       escribir(K.formulario, f);
-      escribir(K.formularioPendiente, true);
+      escribir(K.formularioPendiente, false);
     }
     return f;
   },

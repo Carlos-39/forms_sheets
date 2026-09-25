@@ -172,6 +172,24 @@ try {
   if (await pagina.locator('dialog[open]').count()) await pagina.click('dialog[open] button:text-is("Descartar cambios")');
   console.log('✓ pregunta nueva visible en el formulario');
 
+  // ---- 7b. Un dispositivo nuevo descarga las preguntas editadas (no las sobrescribe)
+  const otro = await navegador.newContext();
+  const pagina2 = await otro.newPage();
+  await pagina2.goto(`${APP}?api=${encodeURIComponent(API)}&clave=${CLAVE}`);
+  await esperar(async () => (await pagina2.textContent('#estado-sync')).includes('Sincronizado'), 'sincronización del segundo dispositivo');
+  await pagina2.click('a[href="#/nueva"]');
+  await pagina2.click('.paso >> nth=1');
+  await pagina2.waitForSelector('text=¿Tiene afiliación a salud?', { timeout: 5000 });
+  h = await hojas();
+  assert.ok(JSON.stringify(h._config).includes('afiliaci'), 'el Sheet conserva la pregunta editada');
+  // Se aceptan menores de edad
+  await pagina2.click('.paso >> nth=-1');
+  await pagina2.fill('#q_edad', '15');
+  await pagina2.click('.paso >> nth=0');
+  assert.equal(await pagina2.locator('[data-q=edad] .error-campo').textContent(), '', 'edad 15 válida');
+  await otro.close();
+  console.log('✓ dispositivo nuevo recibe las preguntas editadas y acepta menores de edad');
+
   // ---- 8. Eliminar una encuesta la borra del Sheet
   await pagina.locator('.registro', { hasText: '999888777' }).locator('text=Eliminar').click();
   await pagina.click('dialog[open] button:text-is("Eliminar")');

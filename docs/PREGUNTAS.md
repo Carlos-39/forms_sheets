@@ -19,7 +19,6 @@ Los números de página son los del visor de PDF, contando la portada como pági
 | 4. Psicológico · Depresión | Tabla 2 (PHQ-9); niveles en la Tabla 4, bloque PSICOLÓGICO | 26 (29) |
 | 5. Psicológico · Ansiedad | Tabla 3 (GAD-7); niveles en la Tabla 4, bloque PSICOLÓGICO | 27 (29) |
 | 6. Biológico | Tabla 4, bloque BIOLÓGICO (de "Edad materna" a "Periodo intergenésico") | 30–34 |
-| Edad mínima de 18 años | Marco metodológico, "Criterios de inclusión" | 23 |
 
 ---
 
@@ -90,7 +89,7 @@ Nivel: **0–4 mínima · 5–9 leve · 10–14 moderada · 15–21 severa**.
 ## 6. Biológico — Tabla 4, págs. 30–34 (mismo orden del documento)
 | # | Variable | Cómo se responde | Pág. |
 |---|---|---|---|
-| 34 | Edad materna | Años completos, número entero (mínimo 18) | 30 |
+| 34 | Edad materna | Años completos, número entero. Se aceptan menores de edad. | 30 |
 | 35 | Gravidez | 0: nulípara · 1: primípara · 2 o más: multípara | 30 |
 | 36 | Número de partos vaginales previos | Número entero | 30 |
 | 37 | Número de cesáreas previas | Número entero | 30 |
@@ -123,5 +122,5 @@ Nivel: **0–4 mínima · 5–9 leve · 10–14 moderada · 15–21 severa**.
 No son preguntas nuevas, y todo se puede cambiar en la pestaña *Preguntas*:
 - **Obligatorias:** el documento, la sección Social, las 3 escalas y la edad. El resto de la sección Biológica es opcional, porque depende de la historia clínica.
 - **Preguntas que solo aparecen según otra respuesta:** la edad gestacional del parto pretérmino previo, el trimestre de la infección urinaria y el número de episodios.
-- **Límites:** edad mínima de 18 años (criterio de inclusión) y números que no pueden ser negativos.
+- **Límites:** los números no pueden ser negativos. La edad no tiene mínimo: por indicación de la doctora se incluyen menores de edad, aunque el criterio de inclusión del documento (pág. 23) dice "mayores de 18 años".
 - **IMC por trimestre:** se calcula con el peso y la talla en vez de copiarse. El resultado es el mismo.

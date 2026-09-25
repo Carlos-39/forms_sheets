@@ -148,7 +148,7 @@ export function formularioBase() {
         titulo: 'Biológico',
         descripcion: '',
         preguntas: [
-          num('edad', 'Edad materna', { obligatoria: true, min: 18, unidad: 'años',
+          num('edad', 'Edad materna', { obligatoria: true, min: 0, unidad: 'años',
             ayuda: 'Años completos desde la fecha de nacimiento hasta el momento de la recolección.' }),
           unica('gravidez', 'Gravidez', op('0: nulípara', '1: primípara', '2 o más: multípara'),
             { ayuda: 'Número de veces que la mujer ha estado embarazada independientemente del resultado (parto, cesárea, aborto, embarazo ectópico).' }),
