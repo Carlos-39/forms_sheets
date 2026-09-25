@@ -2,7 +2,7 @@
 
 import { h, limpiar, rellenar, dialogo } from './dom.js';
 import {
-  indice, esVisible, calcular, puntajeSeccion, alertas, validar, vacio
+  indice, esVisible, calcular, puntajeSeccion, alertas, validar, vacio, tieneGrupos, grupoDe
 } from './calc.js';
 
 /**
@@ -97,6 +97,7 @@ export function montarFormulario(cont, opciones) {
         p.etiqueta, p.obligatoria && p.tipo !== 'calculo' ? h('span', { class: 'obligatoria', title: 'Obligatoria' }, ' *') : null),
       p.ayuda ? h('div', { class: 'pregunta-ayuda' }, p.ayuda) : null,
       control(p),
+      tieneGrupos(p) ? h('div', { class: 'grupo' }) : null,
       error);
     bloques.set(p.id, { el, error, p });
     return el;
@@ -140,6 +141,12 @@ export function montarFormulario(cont, opciones) {
         if (r.valor !== null) out.textContent = `${String(r.valor).replace('.', ',')} ${p.unidad || ''}`;
         else if (r.error) out.textContent = `Error en la fórmula: ${r.error}`;
         else out.textContent = r.falta ? `— (falta: ${etiquetaDe(r.falta)})` : '—';
+      }
+      if (tieneGrupos(p)) {
+        const g = grupoDe(p, respuestas, idx);
+        const out = el.querySelector('.grupo');
+        out.textContent = g ? `Grupo: ${g}` : '';
+        out.hidden = !g;
       }
       if (p.tipo === 'unica') {
         const b = el.querySelector('.limpiar-respuesta');

@@ -162,7 +162,14 @@ export function formularioBase() {
             { ayuda: 'Al menos un parto previo antes de las 37 semanas completas, con inicio espontáneo del trabajo de parto.' }),
           { id: 'eg_pretermino_previo', etiqueta: 'Edad gestacional de parto pretérmino previo', tipo: 'numero',
             decimales: 1, unidad: 'semanas', mostrarSi: { pregunta: 'pretermino_previo', valores: ['si'] },
-            ayuda: 'Por fecha de última menstruación, ecografía obstétrica o examen clínico neonatal.' },
+            ayuda: 'Por fecha de última menstruación, ecografía obstétrica o examen clínico neonatal.',
+            // Tabla 4: "Agrupar posteriormente en". Límites superiores en ,9 para no dejar huecos entre grupos.
+            grupos: [
+              { min: null, max: 27.9, etiqueta: 'Pretérmino extremo (<28,0 semanas)' },
+              { min: 28, max: 31.9, etiqueta: 'Muy pretérmino (28,0-31,6 semanas)' },
+              { min: 32, max: 33.9, etiqueta: 'Moderado (32,0-33,6 semanas)' },
+              { min: 34, max: 36.9, etiqueta: 'Tardío (34,0 a 36,6 semanas)' }
+            ] },
           siNo('itu', 'Infección de vías urinarias'),
           unica('itu_trimestre', 'Trimestre en el que desarrolló infección urinaria',
             op('I trimestre: 0-13.6 semanas', 'II trimestre: 14-27.6 semanas', 'III trimestre: ≥ 28 semanas'),

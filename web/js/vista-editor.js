@@ -4,7 +4,7 @@
 import { h, limpiar, rellenar, confirmar, dialogo, descargar, aviso } from './dom.js';
 import {
   TIPOS, TIPOS_CON_OPCIONES, preguntas, revisarFormula, slug, idUnico, idsReservados,
-  columnaPuntaje, columnaNivel, vacio
+  columnaPuntaje, columnaNivel, columnaGrupo, vacio
 } from './calc.js';
 import { formularioBase } from './formulario-base.js';
 
@@ -264,16 +264,43 @@ export function montarEditor(cont, { form, alGuardar, alVistaPrevia }) {
           h('button', { type: 'button', class: 'btn btn-chico btn-peligro', onclick: () => eliminarPregunta(s, j) }, 'Eliminar pregunta'))));
   }
 
+  /** Clasificación automática de un valor numérico en grupos (columna extra en el Sheet). */
+  function editorGrupos(p) {
+    const activa = Array.isArray(p.grupos);
+    return h('div', { class: 'ed-puntaje' },
+      h('label', { class: 'check' },
+        h('input', {
+          type: 'checkbox', checked: activa,
+          onchange: (e) => {
+            if (e.target.checked) p.grupos = [{ min: null, max: null, etiqueta: '' }];
+            else delete p.grupos;
+            marcar();
+            render();
+          }
+        }),
+        ' Agrupar automáticamente en categorías según el valor'),
+      activa ? h('div', {},
+        h('div', { class: 'ed-rangos' },
+          p.grupos.map((g, k) => h('div', { class: 'ed-fila' },
+            numero(g, 'min', { placeholder: 'Desde', 'aria-label': 'Desde', class: 'corto' }),
+            numero(g, 'max', { placeholder: 'Hasta', 'aria-label': 'Hasta', class: 'corto' }),
+            texto(g, 'etiqueta', { placeholder: 'Nombre del grupo', 'aria-label': 'Nombre del grupo' }),
+            botonIcono('✕', 'Quitar grupo', () => { p.grupos.splice(k, 1); marcar(); render(); }, 'peligro')))),
+        h('button', { type: 'button', class: 'btn btn-chico', onclick: () => { p.grupos.push({ min: null, max: null, etiqueta: '' }); marcar(); render(); } }, '+ Agregar grupo'),
+        h('small', { class: 'sub bloque' }, `"Desde" y "hasta" incluyen el valor; déjelos vacíos para un grupo sin límite. El grupo queda en la columna ${columnaGrupo(p)} del Sheet.`)) : null);
+  }
+
   function opcionesDeTipo(p) {
     if (p.tipo === 'numero') {
-      return h('div', { class: 'ed-grid ed-grid-4' },
+      return h('div', {}, h('div', { class: 'ed-grid ed-grid-4' },
         campo('Mínimo', numero(p, 'min')),
         campo('Máximo', numero(p, 'max')),
         campo('Decimales', h('select', {
           onchange: (e) => { p.decimales = e.target.value === '' ? null : Number(e.target.value); marcar(); }
         }, [['', 'Cualquiera'], ['0', 'Ninguno (entero)'], ['1', '1'], ['2', '2'], ['3', '3']].map(([v, t]) =>
           h('option', { value: v, selected: String(p.decimales ?? '') === v }, t)))),
-        campo('Unidad', texto(p, 'unidad', { placeholder: 'kg, años…' })));
+        campo('Unidad', texto(p, 'unidad', { placeholder: 'kg, años…' }))),
+      editorGrupos(p));
     }
     if (p.tipo === 'calculo') {
       const numericas = preguntas(trabajo).filter((q) => q !== p && (q.tipo === 'numero' || q.tipo === 'calculo'));
@@ -295,7 +322,8 @@ export function montarEditor(cont, { form, alGuardar, alVistaPrevia }) {
           }, q.id))),
         h('div', { class: 'ed-grid' },
           campo('Decimales del resultado', numero(p, 'decimales', { min: 0, max: 6, step: 1 })),
-          campo('Unidad', texto(p, 'unidad'))));
+          campo('Unidad', texto(p, 'unidad'))),
+        editorGrupos(p));
     }
     if (TIPOS_CON_OPCIONES.includes(p.tipo)) return editorOpciones(p);
     return null;
@@ -483,6 +511,7 @@ export function montarEditor(cont, { form, alGuardar, alVistaPrevia }) {
         delete p._idAuto;
         if (!TIPOS_CON_OPCIONES.includes(p.tipo)) delete p.opciones;
         if (p.tipo !== 'calculo') delete p.formula;
+        if ((p.tipo !== 'numero' && p.tipo !== 'calculo') || (Array.isArray(p.grupos) && !p.grupos.length)) delete p.grupos;
         if (p.tipo === 'calculo') delete p.obligatoria;
         for (const o of p.opciones || []) if (!o.alerta) delete o.alerta;
       }
@@ -519,6 +548,13 @@ export function montarEditor(cont, { form, alGuardar, alVistaPrevia }) {
           if ((p.opciones || []).some((o) => !String(o.etiqueta || '').trim())) errores.push(`${q}: hay opciones sin texto.`);
         }
         if (p.tipo === 'numero' && !vacio(p.min) && !vacio(p.max) && Number(p.min) > Number(p.max)) errores.push(`${q}: el mínimo es mayor que el máximo.`);
+        if ((p.tipo === 'numero' || p.tipo === 'calculo') && Array.isArray(p.grupos)) {
+          for (const g of p.grupos) {
+            if (!String(g.etiqueta || '').trim()) errores.push(`${q}: hay un grupo sin nombre.`);
+            else if (vacio(g.min) && vacio(g.max)) errores.push(`${q}: el grupo "${g.etiqueta}" necesita "desde" o "hasta".`);
+            else if (!vacio(g.min) && !vacio(g.max) && Number(g.min) > Number(g.max)) errores.push(`${q}: en el grupo "${g.etiqueta}" el "desde" es mayor que el "hasta".`);
+          }
+        }
         if (p.tipo === 'calculo') {
           const e = revisarFormula(p.formula, numericas.filter((x) => x !== p.id));
           if (e) errores.push(`${q}: ${e}.`);

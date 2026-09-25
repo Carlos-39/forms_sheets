@@ -231,12 +231,30 @@ export function validar(form, respuestas, { registros = [], idActual = null } = 
 // Conversión a columnas del Sheet
 
 export function columnaPuntaje(s) { return `${s.id}_puntaje`; }
+export function columnaGrupo(p) { return `${p.id}_grupo`; }
+
+/** Preguntas numéricas (o calculadas) que se clasifican en grupos según su valor. */
+export function tieneGrupos(p) {
+  return (p.tipo === 'numero' || p.tipo === 'calculo') && Array.isArray(p.grupos) && p.grupos.length > 0;
+}
+
+/** Grupo en el que cae el valor. "Desde" y "hasta" son inclusivos; vacío = sin límite. */
+export function grupoDe(p, respuestas, idx) {
+  const v = p.tipo === 'calculo' ? calcular(p, respuestas, idx).valor : respuestas[p.id];
+  if (vacio(v) || isNaN(Number(v))) return '';
+  const n = Number(v);
+  const g = p.grupos.find((r) => (vacio(r.min) || n >= Number(r.min)) && (vacio(r.max) || n <= Number(r.max)));
+  return g ? g.etiqueta : 'Fuera de los grupos definidos';
+}
 export function columnaNivel(s) { return `${s.id}_nivel`; }
 
 export function columnas(form) {
   const cols = [...COLUMNAS_SISTEMA];
   for (const s of form.secciones) {
-    for (const p of s.preguntas) cols.push({ id: p.id, etiqueta: p.etiqueta });
+    for (const p of s.preguntas) {
+      cols.push({ id: p.id, etiqueta: p.etiqueta });
+      if (tieneGrupos(p)) cols.push({ id: columnaGrupo(p), etiqueta: `${p.etiqueta} — grupo` });
+    }
     if (s.puntaje && s.puntaje.activo) {
       cols.push({ id: columnaPuntaje(s), etiqueta: `${s.titulo} — puntaje` });
       cols.push({ id: columnaNivel(s), etiqueta: `${s.titulo} — nivel` });
@@ -276,7 +294,9 @@ export function aplanar(form, registro, fechaTexto = (x) => x) {
   };
   for (const s of form.secciones) {
     for (const p of s.preguntas) {
-      fila[p.id] = esVisible(p, r, idx) ? valorLegible(p, r[p.id], r, idx) : '';
+      const visible = esVisible(p, r, idx);
+      fila[p.id] = visible ? valorLegible(p, r[p.id], r, idx) : '';
+      if (tieneGrupos(p)) fila[columnaGrupo(p)] = visible ? grupoDe(p, r, idx) : '';
     }
     const pj = puntajeSeccion(s, r, idx);
     if (pj) {
@@ -303,6 +323,10 @@ export function diccionario(form) {
         opciones = [vacio(p.min) ? '' : `mín ${p.min}`, vacio(p.max) ? '' : `máx ${p.max}`, p.unidad || ''].filter(Boolean).join(', ');
       }
       filas.push([p.id, p.etiqueta, s.titulo, TIPOS[p.tipo] || p.tipo, opciones, p.obligatoria ? 'Sí' : 'No']);
+      if (tieneGrupos(p)) {
+        const grupos = p.grupos.map((g) => `${vacio(g.min) ? '…' : g.min}–${vacio(g.max) ? '…' : g.max}: ${g.etiqueta}`).join('; ');
+        filas.push([columnaGrupo(p), `${p.etiqueta} — grupo`, s.titulo, 'Categoría (automática)', grupos, '']);
+      }
     }
     if (s.puntaje && s.puntaje.activo) {
       const rangos = (s.puntaje.rangos || []).map((r) => `${r.min}–${r.max}: ${r.etiqueta}`).join('; ');
@@ -344,6 +368,7 @@ export function idsReservados(form) {
   const ids = new Set(COLUMNAS_SISTEMA.map((c) => c.id).concat(['alertas', 'version_formulario']));
   for (const s of form.secciones) {
     if (s.puntaje && s.puntaje.activo) { ids.add(columnaPuntaje(s)); ids.add(columnaNivel(s)); }
+    for (const p of s.preguntas) if (tieneGrupos(p)) ids.add(columnaGrupo(p));
   }
   return ids;
 }

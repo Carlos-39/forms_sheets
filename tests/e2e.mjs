@@ -57,6 +57,10 @@ async function llenarEncuestaCompleta(documento, { alertaPHQ = false } = {}) {
     if (await pagina.locator('.seccion-form:not([hidden]) #q_talla').count()) { // talla y peso → IMC automático
       await pagina.fill('#q_talla', '1.6');
       await pagina.fill('#q_peso_1t', '64');
+      // Edad gestacional del parto pretérmino previo → grupo automático
+      await pagina.locator('[data-q=pretermino_previo] .opcion').first().click();
+      await pagina.fill('#q_eg_pretermino_previo', '30.4');
+      assert.equal(await pagina.locator('[data-q=eg_pretermino_previo] .grupo').textContent(), 'Grupo: Muy pretérmino (28,0-31,6 semanas)');
       const imc = await pagina.locator('[data-q=imc_1t] output').textContent();
       assert.match(imc, /25/, 'IMC calculado: ' + imc);
     }
@@ -95,6 +99,7 @@ try {
   assert.equal(f[col(h, 'phq9_puntaje')], 10, 'PHQ-9: 8 ítems ×1 + ítem 9 ×2');
   assert.ok(String(f[col(h, 'alertas')]).includes('PHQ-9'), 'alerta registrada');
   assert.equal(f[col(h, 'imc_1t')], 25);
+  assert.equal(f[col(h, 'eg_pretermino_previo_grupo')], 'Muy pretérmino (28,0-31,6 semanas)');
   console.log('✓ encuesta completa sincronizada (puntajes, IMC y alerta)');
   await foto('04-inicio');
 

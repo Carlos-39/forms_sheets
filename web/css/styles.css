@@ -181,6 +181,7 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--primario); 
 .opcion:has(input:checked) { border-color: var(--primario); background: var(--primario-claro); font-weight: 600; }
 .opcion-alerta:has(input:checked) { border-color: var(--rojo); background: var(--rojo-claro); }
 .limpiar-respuesta { grid-column: 1 / -1; justify-self: start; }
+.grupo { margin-top: 6px; display: inline-block; background: var(--primario-claro); color: var(--primario-osc); border-radius: 999px; padding: 2px 12px; font-weight: 600; font-size: .9rem; }
 .calculo { display: block; padding: 10px 12px; background: #f3f6f7; border-radius: 8px; font-weight: 700; font-size: 1.05rem; }
 .puntaje { margin-top: 14px; padding: 12px 14px; border-radius: 8px; background: var(--primario-claro); display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
 .puntaje .nivel { background: var(--primario); color: #fff; border-radius: 999px; padding: 2px 12px; font-weight: 600; }

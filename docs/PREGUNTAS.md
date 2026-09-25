@@ -97,7 +97,7 @@ Nivel: **0–4 mínima · 5–9 leve · 10–14 moderada · 15–21 severa**.
 | 39 | Número de embarazos ectópicos previos | Número entero | 30–31 |
 | 40 | Antecedente de legrados | Sí · No | 31 |
 | 41 | Antecedente de parto pretérmino espontáneo | Sí · No | 31 |
-| 42 | Edad gestacional de parto pretérmino previo | Número decimal en semanas. *Solo aparece si la 41 = Sí* | 31 |
+| 42 | Edad gestacional de parto pretérmino previo | Número decimal en semanas. *Solo aparece si la 41 = Sí.* **Se agrupa sola** en: Pretérmino extremo (<28,0) · Muy pretérmino (28,0-31,6) · Moderado (32,0-33,6) · Tardío (34,0 a 36,6) | 31 |
 | 43 | Infección de vías urinarias | Sí · No | 32 |
 | 44 | Trimestre en el que desarrolló infección urinaria | I trimestre: 0-13.6 semanas · II trimestre: 14-27.6 semanas · III trimestre: ≥ 28 semanas. *Solo si la 43 = Sí* | 32 |
 | 45 | Número de episodios de infección urinaria | Número entero. *Solo si la 43 = Sí* | 32 |
@@ -124,3 +124,4 @@ No son preguntas nuevas, y todo se puede cambiar en la pestaña *Preguntas*:
 - **Preguntas que solo aparecen según otra respuesta:** la edad gestacional del parto pretérmino previo, el trimestre de la infección urinaria y el número de episodios.
 - **Límites:** los números no pueden ser negativos. La edad no tiene mínimo: por indicación de la doctora se incluyen menores de edad, aunque el criterio de inclusión del documento (pág. 23) dice "mayores de 18 años".
 - **IMC por trimestre:** se calcula con el peso y la talla en vez de copiarse. El resultado es el mismo.
+- **Grupo de la edad gestacional del parto pretérmino previo:** la Tabla 4 dice "agrupar posteriormente". La app lo hace sola y lo guarda en una columna aparte del Sheet (*— grupo*). También se ve en pantalla al escribir el valor.
