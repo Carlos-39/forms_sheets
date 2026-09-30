@@ -114,7 +114,7 @@ Nivel: **0–4 mínima · 5–9 leve · 10–14 moderada · 15–21 severa**.
 | 56 | IMC II trimestre | Se calcula solo: peso II trimestre ÷ talla² | 33 |
 | 57 | IMC III trimestre | Se calcula solo: peso III trimestre ÷ talla² | 33 |
 | 58 | IMC pregestacional | Número decimal escrito a mano (no hay peso pregestacional para calcularlo) | 33–34 |
-| 59 | Periodo intergenésico | Corto: < 18 meses · Ideal: 18-24 meses · Prolongado: > 60 meses | 34 |
+| 59 | Periodo intergenésico | Corto: < 18 meses · Ideal: 18-24 meses · Prolongado: > 60 meses · No aplica (agregada a pedido de la doctora) | 34 |
 
 ---
 

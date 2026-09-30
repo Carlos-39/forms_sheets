@@ -33,6 +33,13 @@ pagina.on('pageerror', (e) => errores.push(e.message));
 pagina.on('console', (m) => { if (m.type() === 'error' && !/Failed to fetch|ERR_INTERNET_DISCONNECTED|net::/.test(m.text())) errores.push(m.text()); });
 const foto = async (nombre) => { if (CAPTURAS) await pagina.screenshot({ path: `${CAPTURAS}/${nombre}.png`, fullPage: false }); };
 
+/** Pasa la pantalla de acceso escribiendo la clave. */
+async function entrar(pag, clave = CLAVE) {
+  await pag.waitForSelector('#bloqueo input[type=password]');
+  await pag.fill('#bloqueo input[type=password]', clave);
+  await pag.click('#bloqueo button[type=submit]');
+}
+
 async function responderPaso({ documento, edad, alertaPHQ = false } = {}) {
   // Llena las preguntas visibles del paso activo.
   const sec = pagina.locator('.seccion-form:not([hidden])');
@@ -72,8 +79,15 @@ async function llenarEncuestaCompleta(documento, { alertaPHQ = false } = {}) {
 try {
   await fetch('http://localhost:8081/__reiniciar');
   // ---- 1. Conexión por enlace y publicación del formulario en el Sheet
-  await pagina.goto(`${APP}?api=${encodeURIComponent(API)}&clave=${CLAVE}`);
+  // ---- 0. Acceso: el enlace solo trae la URL; la clave se escribe y se verifica en línea
+  await pagina.goto(`${APP}?api=${encodeURIComponent(API)}`);
+  await entrar(pagina, 'clave-equivocada');
+  await pagina.waitForSelector('#bloqueo >> text=Clave incorrecta');
+  await foto('01-acceso');
+  await entrar(pagina);
+  await pagina.waitForSelector('#bloqueo', { state: 'detached' });
   await pagina.waitForSelector('text=Nueva encuesta');
+  console.log('✓ pantalla de acceso (clave incorrecta rechazada, correcta aceptada)');
   await esperar(async () => (await pagina.textContent('#estado-sync')).includes('Sincronizado'), 'primera sincronización');
   let h = await hojas();
   assert.ok(h._config && h._config.length, 'formulario guardado en _config');
@@ -125,6 +139,12 @@ try {
   await pagina.click('dialog[open] button:text-is("Guardar como incompleta")');
   await esperar(async () => /Sin señal · 1 pendiente/.test(await pagina.textContent('#estado-sync')), 'indicador sin señal');
   await foto('05-sin-senal');
+  await pagina.click('#btn-bloquear');
+  await entrar(pagina, 'otra-cosa');
+  await pagina.waitForSelector('#bloqueo >> text=Clave incorrecta');
+  await entrar(pagina);
+  await pagina.waitForSelector('#bloqueo', { state: 'detached' });
+  console.log('✓ bloqueo y desbloqueo sin señal');
   assert.equal(filas(await hojas()).length, 1, 'aún no llega al Sheet');
   await red(true);
   await contexto.setOffline(false);
@@ -181,6 +201,7 @@ try {
   const otro = await navegador.newContext();
   const pagina2 = await otro.newPage();
   await pagina2.goto(`${APP}?api=${encodeURIComponent(API)}&clave=${CLAVE}`);
+  await entrar(pagina2);
   await esperar(async () => (await pagina2.textContent('#estado-sync')).includes('Sincronizado'), 'sincronización del segundo dispositivo');
   await pagina2.click('a[href="#/nueva"]');
   await pagina2.click('.paso >> nth=1');

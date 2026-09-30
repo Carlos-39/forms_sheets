@@ -4,6 +4,7 @@ import { sincronizar, estadoSync, probarConexion, iniciarSincronizacionAutomatic
 import { alertas, aCSV, indice, valorLegible, preguntas } from './calc.js';
 import { montarFormulario } from './vista-formulario.js';
 import { montarEditor } from './vista-editor.js';
+import { iniciarAcceso, bloquear } from './acceso.js';
 
 export const VERSION_APP = '1.0.0';
 
@@ -16,13 +17,14 @@ let ignorarCambioRuta = false;
 let repintarLista = null; // refresca la lista de inicio sin perder la búsqueda
 
 // ---------------------------------------------------------------------------
-// Configuración rápida por enlace: ?api=URL&clave=CLAVE
+// Configuración rápida por enlace: ?api=URL. La clave nunca va en el enlace:
+// se escribe en la pantalla de acceso (si un enlace viejo la trae, se ignora).
 
 (function configDesdeURL() {
   const q = new URLSearchParams(location.search);
   if (q.get('api') || q.get('clave')) {
     const c = store.config();
-    store.guardarConfig({ apiUrl: q.get('api') || c.apiUrl, clave: q.get('clave') || c.clave });
+    if (q.get('api') && q.get('api') !== c.apiUrl) store.guardarConfig({ apiUrl: q.get('api'), clave: '' });
     history.replaceState(null, '', location.pathname + location.hash);
   }
 })();
@@ -356,11 +358,11 @@ function ajustes() {
           onclick: async () => {
             const cfg = store.config();
             if (!cfg.apiUrl || !cfg.clave) { aviso('Primero guarde la URL y la clave', 'alerta'); return; }
-            const enlace = `${location.origin}${location.pathname}?api=${encodeURIComponent(cfg.apiUrl)}&clave=${encodeURIComponent(cfg.clave)}`;
+            const enlace = `${location.origin}${location.pathname}?api=${encodeURIComponent(cfg.apiUrl)}`;
             try { await navigator.clipboard.writeText(enlace); aviso('Enlace copiado'); } catch { /* sin portapapeles */ }
             dialogo({
               titulo: 'Enlace de configuración',
-              mensaje: h('div', {}, h('p', {}, 'Abra este enlace en otro dispositivo para dejarlo conectado automáticamente. Contiene la clave: compártalo solo con el equipo.'),
+              mensaje: h('div', {}, h('p', {}, 'Abra este enlace en otro dispositivo: queda conectado al Sheet y al entrar se pide la clave. El enlace no contiene la clave; envíela por separado solo a quien corresponda.'),
                 h('textarea', { rows: 4, readonly: true, class: 'mono', value: enlace, onfocus: (e) => e.target.select() }))
             });
           }
@@ -444,6 +446,9 @@ if ('serviceWorker' in navigator && location.protocol !== 'file:') {
   navigator.serviceWorker.register('./sw.js').catch(() => {});
 }
 
+document.getElementById('btn-bloquear').addEventListener('click', bloquear);
+
+iniciarAcceso();
 pintarEstado();
 navegar();
 iniciarSincronizacionAutomatica();

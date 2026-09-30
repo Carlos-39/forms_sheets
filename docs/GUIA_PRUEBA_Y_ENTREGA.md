@@ -21,7 +21,7 @@ npm run servidor        # no requiere npm install
 ```
 
 Abre en Chrome:
-`http://localhost:8080/?api=http://localhost:8081/exec&clave=CAMBIE-ESTA-CLAVE`
+`http://localhost:8080/?api=http://localhost:8081/exec` y en la pantalla de acceso escribe la clave `CAMBIE-ESTA-CLAVE`.
 
 Prueba lo siguiente:
 1. El indicador de arriba a la derecha dice **Sincronizado**.
@@ -66,7 +66,7 @@ Para detenerlo: `Ctrl+C`. Los datos del simulador se pierden al cerrarlo, y así
 
 ### B3. Probar contra el Sheet real (desde tu computador)
 Con `npm run servidor` corriendo, abre:
-`http://localhost:8080/?api=URL_DEL_SCRIPT&clave=TU_CLAVE`
+`http://localhost:8080/?api=URL_DEL_SCRIPT` y entra con tu clave
 
 (O abre `http://localhost:8080`, ve a **Ajustes**, pega la URL y la clave y pulsa **Guardar y probar conexión**.)
 
@@ -105,7 +105,7 @@ La rama **`main`** ya existe con todo el código y el repositorio es público, a
 
 ### C2. Dejar la tablet de la doctora lista
 1. En tu computador abre la app publicada. En **Ajustes** pon la URL y la clave, pulsa **Guardar y probar conexión** y luego **Enlace para otro dispositivo**. Copia ese enlace.
-2. Envía ese enlace a la tablet de la doctora (por WhatsApp o correo a ella misma) y ábrelo **en Chrome** (en iPad, en **Safari**). La app queda conectada sola.
+2. Envía ese enlace a la tablet de la doctora (por WhatsApp o correo a ella misma) y ábrelo **en Chrome** (en iPad, en **Safari**). La app queda conectada al Sheet y pide la **clave**: dísela por otro medio (en persona, por llamada). La primera vez necesita internet para verificarla; después funciona sin señal.
 3. **Instálala:** en Chrome (Android), menú **⋮ → Instalar app / Agregar a pantalla principal**. En iPad o iPhone, **Compartir ⬆ → Agregar a inicio**. Desde ahí se abre como una app y funciona sin señal.
 4. Haz **una encuesta de prueba** en la tablet y confirma que llega al Sheet.
 5. **Limpia los datos de prueba:** en la app, **Eliminar** cada encuesta de prueba (se borran también del Sheet). Si quedaron filas de pruebas hechas desde tu computador, bórralas en el Sheet desde la fila 3 hacia abajo. **Nunca borres las filas 1 y 2.**

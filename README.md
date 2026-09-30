@@ -74,7 +74,7 @@ La app necesita **HTTPS** para funcionar sin conexión. Ambos servicios lo dan.
 2. Vaya a **Ajustes**, pegue la **URL del Apps Script** y la **clave**, y pulse **Guardar y probar conexión**.
    - En ese momento el Sheet recibe las preguntas: se crean las hojas **Respuestas**, **Diccionario** y **Resumen**.
 3. **Instale la app en la pantalla de inicio.** En Chrome use el menú ⋮ → *Instalar app* o *Agregar a la pantalla principal*. En iPad o iPhone use *Compartir → Agregar a inicio*. Así abre sin conexión y el navegador no borra los datos.
-4. Para configurar otros dispositivos: en **Ajustes → Enlace para otro dispositivo** se genera un link que deja la app conectada al abrirlo. Contiene la clave, así que compártalo solo con el equipo.
+4. Para configurar otros dispositivos: en **Ajustes → Enlace para otro dispositivo** se genera un link que deja la app conectada al Sheet. El link **no** contiene la clave: al abrir la app se pide la clave (ver [`docs/SEGURIDAD.md`](docs/SEGURIDAD.md)).
 
 ---
 
@@ -173,7 +173,7 @@ npm test                    # (en otra terminal) prueba de extremo a extremo
 ```
 
 Para usar la app contra el simulador, abra
-`http://localhost:8080/?api=http://localhost:8081/exec&clave=CAMBIE-ESTA-CLAVE`.
+`http://localhost:8080/?api=http://localhost:8081/exec` y entre con la clave `CAMBIE-ESTA-CLAVE`.
 
 La prueba automática ejecuta el `Code.gs` real contra un Sheet en memoria y verifica:
 - la publicación del formulario;

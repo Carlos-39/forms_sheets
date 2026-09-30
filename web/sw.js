@@ -2,13 +2,14 @@
 // Estrategia: responde desde la caché de inmediato y actualiza la caché en segundo plano.
 // Las llamadas a Google (Apps Script) no pasan por aquí.
 
-const CACHE = 'encuestas-v4';
+const CACHE = 'encuestas-v5';
 const ARCHIVOS = [
   './',
   './index.html',
   './config.js',
   './manifest.webmanifest',
   './css/styles.css',
+  './js/acceso.js',
   './js/app.js',
   './js/calc.js',
   './js/dom.js',

@@ -191,7 +191,7 @@ export function formularioBase() {
           num('imc_pregestacional', 'IMC pregestacional', { decimales: 1, min: 0, unidad: 'kg/m²',
             ayuda: 'Peso (kg) / talla (m)² antes del inicio del embarazo o en las primeras 14 semanas de gestación.' }),
           unica('periodo_intergenesico', 'Periodo intergenésico',
-            op('Corto: < 18 meses', 'Ideal: 18-24 meses', 'Prolongado: > 60 meses'),
+            op('Corto: < 18 meses', 'Ideal: 18-24 meses', 'Prolongado: > 60 meses', 'No aplica'),
             { ayuda: 'Intervalo en meses entre la finalización del último embarazo y el inicio del embarazo actual.' })
         ]
       }
